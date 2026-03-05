@@ -5,8 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CPO SIM 3 — Netflix | CXO Simulabs</title>
 <meta name="description" content="Master user research and A/B testing through Netflix's pivotal decisions. A CPO Track simulation by CXO Simulabs.">
+<link rel="canonical" href="https://mohansimham.github.io/CPO-SIM-3-Netflix/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CPO SIM 3 — Netflix | CXO Simulabs">
+<meta property="og:description" content="Master user research and A/B testing through Netflix's pivotal decisions. Test your skills through 10 real scenarios.">
+<meta property="og:url" content="https://mohansimham.github.io/CPO-SIM-3-Netflix/">
+<meta property="og:site_name" content="CXO Simulabs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CPO SIM 3 — Netflix | CXO Simulabs">
+<meta name="twitter:description" content="Master user research and A/B testing through Netflix's pivotal decisions. Test your skills through 10 real scenarios.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"CPO SIM 3 — Netflix","url":"https://mohansimham.github.io/CPO-SIM-3-Netflix/","description":"Master user research and A/B testing through Netflix's pivotal decisions. A CPO Track simulation by CXO Simulabs.","applicationCategory":"Education","provider":{"@type":"Organization","name":"CXO Simulabs","url":"https://www.cxosimulabs.com"}}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z4J0M6TE3E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Z4J0M6TE3E');</script>
 <style>
 :root {
   --navy:#1a1a2e; --navy-mid:#16213e; --red:#e23744;
@@ -1118,12 +1134,14 @@ function sendOTP(){
     sim_name: 'CPO Simulation 3: Netflix',
     message: `Hi ${name},\n\nYour CXO Simulabs verification code for CPO Simulation 3 (Netflix) is:\n\n${code}\n\nThis code expires in 10 minutes. Do not share it with anyone.\n\n— CXO Simulabs Team\ncxosimulabs.com`
   }).then(()=>{
+    gtag('event','otp_requested',{sim:'CPO-SIM-3-Netflix'});
     localStorage.setItem(LS.name, name);
     localStorage.setItem(LS.email, email);
     document.getElementById('otp-email-display').textContent = email;
     showPhase('otp');
     startOTPTimer();
   }).catch(()=>{
+    gtag('event','otp_failed',{sim:'CPO-SIM-3-Netflix'});
     btn.textContent='Send Verification Code →';
     btn.disabled=false;
     errEl.textContent='Failed to send code. Please try again.';
@@ -1160,6 +1178,7 @@ function verifyOTP(){
   }
   clearInterval(state.timerInterval);
   okEl.style.display='block';
+  gtag('event','email_verified',{sim:'CPO-SIM-3-Netflix'});
   setTimeout(()=>{
     document.getElementById('attempt-badge-display').textContent = `🎯 Attempt ${state.currentAttempt} of 2`;
     showPhase('intro');
@@ -1179,6 +1198,7 @@ function startSim(){
   state.answers  = [];
   state.totalScore = 0;
   state.maxScore   = questions.reduce((sum,q)=>sum+Math.max(...q.options.map(o=>o.points)),0);
+  gtag('event','sim_started',{sim:'CPO-SIM-3-Netflix',attempt:state.currentAttempt});
   showPhase('questions');
   renderQuestion();
 }
@@ -1258,6 +1278,7 @@ function showResults(){
   }
 
   const tier = pct>=90?'Strategic Mastery':pct>=75?'Applied Proficiency':pct>=60?'Core Competency':'Foundational Understanding';
+  gtag('event','sim_completed',{sim:'CPO-SIM-3-Netflix',attempt:state.currentAttempt,score_pct:pct,tier:tier});
   const tierClass = pct>=90?'tier-mastery':pct>=75?'tier-proficiency':pct>=60?'tier-competency':'tier-foundational';
   const tierFeedback = {
     'Strategic Mastery':'Outstanding. You demonstrated the kind of nuanced, first-principles thinking that defines exceptional product leaders.',
@@ -1694,6 +1715,7 @@ function getPctTier(){
 }
 function downloadCert(){
   const {pct,tier}=getPctTier();
+  gtag('event','cert_downloaded',{sim:'CPO-SIM-3-Netflix',score_pct:pct,tier:tier});
   const canvas=document.getElementById('certCanvas');
   canvas.width=1200; canvas.height=850;
   drawCertificate(pct,tier);
@@ -1703,6 +1725,7 @@ function downloadCert(){
 }
 function downloadBadge(){
   const {pct,tier}=getPctTier();
+  gtag('event','badge_downloaded',{sim:'CPO-SIM-3-Netflix',score_pct:pct,tier:tier});
   const canvas=document.getElementById('badgeCanvas');
   drawBadge(pct,tier);
   const link=document.createElement('a');
@@ -1710,6 +1733,7 @@ function downloadBadge(){
   link.href=canvas.toDataURL('image/png'); link.click();
 }
 function shareLinkedIn(){
+  gtag('event','share_linkedin',{sim:'CPO-SIM-3-Netflix'});
   const {pct,tier}=getPctTier();
   const text=encodeURIComponent(`I just scored ${pct}% (${tier}) on the Netflix CPO Simulation by CXO Simulabs — 10 real product decisions, expert feedback.\n\nTry it free: https://cxosimulabs.com\n\n#ProductManagement #CPO #CXOSimulabs`);
   window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcxosimulabs.com&summary=${text}`,'_blank');
